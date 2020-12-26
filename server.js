@@ -4,22 +4,25 @@ const { Client } = require('pg')
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-const port = 3003
+const port = process.env.MY_PORT ? process.env.MY_PORT : 3888
+
+let dbVars = {
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    password: process.env.DB_PW,
+    port: process.env.DB_PORT,
+};
+if (process.env.DB_USE_SSL && process.env.DB_USE_SSL === 'true') {
+    dbVars.ssl = {
+        rejectUnauthorized: false // This is for simplicity in the demo; don't do this in a "real" app!
+    }
+}
+console.log("Connection details:" + JSON.stringify(dbVars))
+console.log("Running on port: " + port);
 
 let client = null;
 const initClient = async () => {
-    let dbVars = {
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        password: process.env.DB_PW,
-        port: process.env.DB_PORT,
-    };
-    if (process.env.DB_USE_SSL && process.env.DB_USE_SSL === 'true') {
-        dbVars.ssl = {
-            rejectUnauthorized: false // This is for simplicity in the demo; don't do this in a "real" app!
-        }
-    }
 
     client = new Client(dbVars);
     await client.connect();
@@ -40,7 +43,7 @@ app.get('/orders', async (req, res) => {
     const query = "select order_id, charter_id, charter_name, order_timedate, contact_name from orders order by charter_name";
     try {
         const response = await client.query(query);
-        res.status(200).send({ charters: response.rows })
+        res.status(200).send({ orders: response.rows })
     } catch (exc) {
         const msg = `Error retrieving charters: ${exc.message}`;
         res.status(400).send({ message: msg })

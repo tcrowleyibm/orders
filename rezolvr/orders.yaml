@@ -9,7 +9,7 @@ provides:
       - name: orders_endpoint
         value: /orders
       - name: port
-        value: 3003
+        formula: '{{with(index .Needs "environment.properties:appEnvProps")}}{{.Params.orders_port.Value}}{{end}}'
       - name: imageName
         formula: '{{.Component.Name}}'
 uses:
@@ -25,6 +25,9 @@ uses:
         formula: '{{with(index .Needs "service.db.postgres:ordersdb")}}{{.Params.db_name.Value}}{{end}}'
       - name: DB_HOST
         formula: '{{with(index .Needs "service.db.postgres:ordersdb")}}{{.Params.db_host.Value}}{{end}}'
+      - name: MY_PORT
+        formula: '{{with(index .Needs "environment.properties:appEnvProps")}}{{.Params.orders_port.Value}}{{end}}'
+
 needs:
   - type: service.db.postgres
     name: ordersdb
@@ -40,3 +43,10 @@ needs:
         required: true
       - name: db_host
         required: true
+  - type: environment.properties
+    name: appEnvProps
+    description: Application properties
+    params:
+      - name: orders_port
+        required: true
+
