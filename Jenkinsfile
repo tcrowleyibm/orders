@@ -25,4 +25,10 @@ node {
         }
     }
 
+    stage('Invoke Rezolvr Pipeline') {
+        build job: 'catalog-deploy-pipeline', parameters: [
+            string(name: 'source', value: 'orders')
+        ]
+    }
+
 }
