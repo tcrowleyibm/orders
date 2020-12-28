@@ -3,7 +3,7 @@ type: resource.web.app
 description: A microservice for placing boat tour orders
 provides:
   - type: service.web.app
-    name: orders_service
+    name: ordersms
     description: A microservice to manage order details
     params:
       - name: orders_endpoint
@@ -11,7 +11,9 @@ provides:
       - name: port
         formula: '{{with(index .Needs "environment.properties:appEnvProps")}}{{.Params.orders_port.Value}}{{end}}'
       - name: imageName
-        formula: '{{.Component.Name}}'
+        formula: '{{with(index .Needs "service.container.registry:imageRegistry")}}{{.Params.endpoint.Value}}{{end}}{{.Component.Name}}'
+      - name: image.tag
+        value: 'latest'
 uses:
   - type: environment
     params:
@@ -48,5 +50,10 @@ needs:
     description: Application properties
     params:
       - name: orders_port
+        required: true
+  - type: service.container.registry
+    name: imageRegistry
+    params:
+      - name: endpoint
         required: true
 
