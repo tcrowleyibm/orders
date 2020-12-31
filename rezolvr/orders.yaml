@@ -27,12 +27,12 @@ uses:
       - name: MY_PORT
         formula: '{{with(index .Needs "environment.properties:appEnvProps")}}{{.Params.orders_port.Value}}{{end}}'
   - type: secret
-    name: databaseCredentials
+    name: databasecredentials
     params:
       - name: DB_USER
-        formula: '{{with(index .Needs "environment.secret:databaseCredentials")}}{{.Params.db_username.Name}}{{end}}'
+        formula: '{{with(index .Needs "environment.secret:databasecredentials")}}{{.Params.db_username.Value}}{{end}}'
       - name: DB_PW
-        formula: '{{with(index .Needs "environment.secret:databaseCredentials")}}{{.Params.db_password.Name}}{{end}}'
+        formula: '{{with(index .Needs "environment.secret:databasecredentials")}}{{.Params.db_password.Value}}{{end}}'
 
 needs:
   - type: service.db.postgres
@@ -57,7 +57,7 @@ needs:
       - name: endpoint
         required: true
   - type: environment.secret
-    name: databaseCredentials
+    name: databasecredentials
     description: Credentials for accessing the database
     params:
       - name: db_username
