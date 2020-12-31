@@ -26,7 +26,7 @@ node {
     }
 
     stage('Invoke Rezolvr Pipeline') {
-        build job: 'catalog-deploy-pipeline', parameters: [
+        build job: 'gulfcharter_stage', parameters: [
             string(name: 'source', value: 'orders')
         ]
     }
