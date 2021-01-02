@@ -7,3 +7,4 @@ CREATE TABLE ORDERS (
     contact_name VARCHAR(128) NOT NULL
 );
 
+INSERT INTO ORDERS (charter_id, charter_name, order_timedate, contact_name) VALUES(1, 'Inshore 1', now(), 'Kenny');
