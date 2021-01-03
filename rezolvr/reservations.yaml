@@ -24,6 +24,8 @@ uses:
         formula: '{{with(index .Needs "service.db.postgres:reservationsdb")}}{{.Params.db_name.Value}}{{end}}'
       - name: DB_HOST
         formula: '{{with(index .Needs "service.db.postgres:reservationsdb")}}{{.Params.db_host.Value}}{{end}}'
+      - name: DB_USE_SSL
+        formula: '{{with(index .Needs "service.db.postgres:reservationsdb")}}{{.Params.db_use_ssl.Value}}{{end}}'
       - name: MY_PORT
         formula: '{{with(index .Needs "environment.properties:appEnvProps")}}{{.Params.reservations_port.Value}}{{end}}'
   - type: secret
@@ -43,6 +45,8 @@ needs:
       - name: db_name
         required: true
       - name: db_host
+        required: true
+      - name: db_use_ssl
         required: true
   - type: environment.properties
     name: appEnvProps
