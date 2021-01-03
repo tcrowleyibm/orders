@@ -26,7 +26,7 @@ node {
     }
 
     stage('Invoke Rezolvr Pipeline') {
-        build job: 'gulfcharter_stage', parameters: [
+        build job: 'gulfcharter_stage_perf', parameters: [
             string(name: 'source', value: 'reservations')
         ]
     }
