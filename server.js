@@ -40,7 +40,7 @@ app.get('/reservations', async (req, res) => {
         }
     }
 
-    const query = "select reservation_id, charter_id, charter_name, reservation_timedate, contact_name from reservations reservation by charter_name";
+    const query = "select reservation_id, charter_id, charter_name, reservation_timedate, contact_name from reservations order by charter_name";
     try {
         const response = await client.query(query);
         res.status(200).send({ reservations: response.rows })

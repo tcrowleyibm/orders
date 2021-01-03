@@ -33,7 +33,6 @@ uses:
         formula: '{{with(index .Needs "environment.secret:databasecredentials")}}{{.Params.db_username.Value}}{{end}}'
       - name: DB_PW
         formula: '{{with(index .Needs "environment.secret:databasecredentials")}}{{.Params.db_password.Value}}{{end}}'
-
 needs:
   - type: service.db.postgres
     name: reservationsdb
