@@ -1,13 +1,13 @@
-# orders
-A basic NodeJS application to manage order data
+# reservations
+A basic NodeJS application to manage reservation-related data
 
 # About
 This application depends upon a back-end database.
 
 There are two endpoints associated with it:
 
- - `/orders` (POST) - Schedule a new charter (or order)
- - `/orders` (GET)  - Retrieve a list of all orders
+ - `/reservations` (POST) - Schedule a new charter reservation
+ - `/reservations` (GET)  - Retrieve a list of all reservations
 
 The application will attempt to read database credentials from the environment. It expects to find the
 following environment variables:
@@ -24,7 +24,7 @@ To work properly, it's necessary to create a table. This can be done several dif
 ways. To create the table from the command line via psql, use the following:
 
 ```
-psql -p 5432 -h localhost -U postgres -d orders -f init.sql
+psql -p 5432 -h localhost -U postgres -d reservations -f init.sql
 ```
 
 # Running the application locally
@@ -59,11 +59,11 @@ npm start
 # Building the Docker image
 
 ```
-docker build -t orders .
+docker build -t reservations .
 ```
 
 # Run the Docker image
 
 ```
-docker run  --name orders1 --env DB_USER=postgres --env DB_PW=passw0rd --env DB_HOST=host.docker.internal --env DB_NAME=postgres --env DB_PORT=5432 -p 3003:3003 -d orders:latest
+docker run  --name reservations1 --env DB_USER=postgres --env DB_PW=passw0rd --env DB_HOST=host.docker.internal --env DB_NAME=postgres --env DB_PORT=5432 -p 3003:3003 -d reservations:latest
 ```

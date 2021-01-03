@@ -28,7 +28,7 @@ const initClient = async () => {
     await client.connect();
 }
 
-app.get('/orders', async (req, res) => {
+app.get('/reservations', async (req, res) => {
     if (client == null) {
         try {
             await initClient()
@@ -40,17 +40,17 @@ app.get('/orders', async (req, res) => {
         }
     }
 
-    const query = "select order_id, charter_id, charter_name, order_timedate, contact_name from orders order by charter_name";
+    const query = "select reservation_id, charter_id, charter_name, reservation_timedate, contact_name from reservations reservation by charter_name";
     try {
         const response = await client.query(query);
-        res.status(200).send({ orders: response.rows })
+        res.status(200).send({ reservations: response.rows })
     } catch (exc) {
         const msg = `Error retrieving charters: ${exc.message}`;
         res.status(400).send({ message: msg })
     }
 });
 
-app.post('/orders', async (req, res) => {
+app.post('/reservations', async (req, res) => {
 
     if (client == null) {
         try {
@@ -63,14 +63,14 @@ app.post('/orders', async (req, res) => {
         }
     }
 
-    const sql = "insert into orders (charter_id, charter_name, order_timedate, contact_name) values($1, $2, $3, $4)";
-    const sqlValues = [req.body.charter_id, req.body.charter_name, req.body.order_timedate, req.body.contact_name]
+    const sql = "insert into reservations (charter_id, charter_name, reservation_timedate, contact_name) values($1, $2, $3, $4)";
+    const sqlValues = [req.body.charter_id, req.body.charter_name, req.body.reservation_timedate, req.body.contact_name]
     try {
         const response = await client.query(sql, sqlValues);
-        const order_id = response.rows[0].order_id;
-        res.status(200).send({ order_id: order_id })
+        const reservation_id = response.rows[0].reservation_id;
+        res.status(200).send({ reservation_id: reservation_id })
     } catch (exc) {
-        const msg = `Error creating order: ${exc.message}`;
+        const msg = `Error creating reservation: ${exc.message}`;
         res.status(400).send({ message: msg })
     }
 });

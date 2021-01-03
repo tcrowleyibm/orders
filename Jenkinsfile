@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
         docker.withRegistry('http://host.minikube.internal:5000') {
-            customImage = docker.build("orders")
+            customImage = docker.build("reservations")
             customImage.push()
         }
     }
@@ -27,7 +27,7 @@ node {
 
     stage('Invoke Rezolvr Pipeline') {
         build job: 'gulfcharter_stage', parameters: [
-            string(name: 'source', value: 'orders')
+            string(name: 'source', value: 'reservations')
         ]
     }
 
